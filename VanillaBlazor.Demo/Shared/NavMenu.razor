@@ -1,0 +1,33 @@
+﻿
+<nav class="p-side-navigation">
+    <div class="p-side-navigation__drawer">
+        <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item">
+                <NavLink class="p-side-navigation__link" href="">
+                    Home
+                </NavLink>
+            </li>
+            <li class="p-side-navigation__item">
+                <NavLink class="p-side-navigation__link" href="counter">
+                    Counter
+                </NavLink>
+            </li>
+            <li class="p-side-navigation__item">
+                <NavLink class="p-side-navigation__link" href="fetchdata">
+                    Fetch data
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

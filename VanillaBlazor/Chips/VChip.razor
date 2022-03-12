@@ -1,0 +1,69 @@
+﻿@namespace VanillaBlazor
+@inherits VComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    @Content()
+</CascadingValue>
+
+@code {
+    private RenderFragment Content() => __builder =>
+    {
+        var sequence = 0;
+
+        if (OnDismiss.HasDelegate && !OnClick.HasDelegate)
+        {
+            __builder.OpenElement(sequence++, "span");
+        }
+        else
+        {
+            __builder.OpenElement(sequence++, "button");
+        }
+        __builder.AddComponent(ref sequence, this);
+        __builder.AddEvent(ref sequence, "onclick", OnClick, OnClickStopPropagation);
+        __builder.IfAddAttribute(ref sequence, "aria-pressed", "true", () => Selected);
+        __builder.AddContent(sequence++, LeadFragment());
+        __builder.AddContent(sequence++, ValueFragment());
+        __builder.AddContent(sequence++, DismissFragment());
+
+        __builder.CloseComponent();
+    };
+
+    private RenderFragment LeadFragment() => __builder =>
+    {
+        if (LeadTemplate != null || !string.IsNullOrWhiteSpace(Lead))
+        {
+            var sequence = 0;
+            __builder.OpenElement(sequence++, "span");
+            __builder.AddAttribute(sequence++, "id", $"{Id}_lead");
+            __builder.AddConfig(ref sequence, LeadConfig);
+            __builder.EitherOrAddContent(ref sequence, LeadTemplate, Lead, () => LeadTemplate != null);
+            __builder.CloseComponent();
+        }
+    };
+
+    private RenderFragment ValueFragment() => __builder =>
+    {
+        if (ValueTemplate != null || !string.IsNullOrWhiteSpace(Value))
+        {
+            var sequence = 0;
+            __builder.OpenElement(sequence++, "span");
+            __builder.AddAttribute(sequence++, "id", $"{Id}_value");
+            __builder.AddConfig(ref sequence, ValueConfig);
+            __builder.EitherOrAddContent(ref sequence, ValueTemplate, Value, () => ValueTemplate != null);
+            __builder.CloseComponent();
+        }
+    };
+
+    private RenderFragment DismissFragment() => __builder =>
+    {
+        if (OnDismiss.HasDelegate)
+        {
+            var sequence = 0;
+            __builder.OpenElement(sequence++, "button");
+            __builder.AddAttribute(sequence++, "class", "p-chip__dismiss");
+            __builder.AddEvent(ref sequence, "onclick", OnDismiss, true);
+            __builder.AddContent(sequence++, "Dismiss");
+            __builder.CloseComponent();
+        }
+    };
+}

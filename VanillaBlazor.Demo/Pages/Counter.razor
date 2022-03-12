@@ -1,0 +1,25 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<VButton OnClick="IncrementCount">Click me</VButton>
+<span>Everything you need to get started with Vanilla.</span>
+<VButton OnClick="IncrementCount" Appearance="ButtonAppearance.Negative" Inline Small Dense>Click me</VButton>
+
+<VChip OnClick="IncrementCount" Value="Bob" Lead="Owner" Inline/>
+<VChip OnClick="IncrementCount" Value="21.10" Dense/>
+<VChip OnClick="IncrementCount" Value="Selected" Selected/>
+<VChip Value="Dismiss" Selected OnDismiss="@(() => Console.WriteLine("关闭"))"/>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
