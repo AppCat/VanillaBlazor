@@ -10,7 +10,7 @@ namespace VanillaBlazor
 {
     /// <summary>
     /// 按钮的参数部分
-    /// Buttons Parameter Partial
+    /// Buttons parameter partial
     /// </summary>
     public partial class VButton
     {
@@ -19,14 +19,14 @@ namespace VanillaBlazor
         /// The appearance of the button.
         /// </summary>
         [Parameter]
-        public EnumMix<ButtonAppearance>? Appearance { get; set; }
+        public EnumMix<VButtonAppearance>? Appearance { get; set; }
 
         /// <summary>
         /// 用来代替按钮的可选元素或组件。
         /// Optional element or component to use instead of button.
         /// </summary>
         [Parameter]
-        public EnumMix<OptionalElement>? Element { get; set; }
+        public EnumMix<VOptionalElement>? Element { get; set; }
 
         /// <summary>
         /// 按钮是否应该有密集的填充。

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace VanillaBlazor
 {
     /// <summary>
-    /// 使用芯片组件来显示小的可操作的信息片段。
+    /// 使用炸薯条组件来显示小的可操作的信息片段。
     /// Use the chip component to display small actionable pieces of information.
     /// </summary>
     public partial class VChip : VComponentBase

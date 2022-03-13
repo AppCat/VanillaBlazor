@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 namespace VanillaBlazor
 {
     /// <summary>
-    /// 按钮
+    /// 可选元素
     /// </summary>
-    public enum ChipAppearance
+    public enum VOptionalElement
     {
-        Caution,
-        Information,
-        Negative,
-        Positive
+        A
     }
 }

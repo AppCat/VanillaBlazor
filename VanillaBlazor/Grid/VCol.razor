@@ -1,0 +1,17 @@
+﻿@namespace VanillaBlazor
+@inherits VContentComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    @Content()
+</CascadingValue>
+
+@code {
+    private RenderFragment Content() => __builder =>
+    {
+        var sequence = 0;
+        __builder.OpenElement(sequence++, "div");
+        __builder.AddComponent(ref sequence, this);
+        __builder.AddContent(sequence++, ChildContent);
+        __builder.CloseComponent();
+    };
+}

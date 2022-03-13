@@ -18,4 +18,16 @@ namespace VanillaBlazor
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
     }
+
+    /// <summary>
+    /// 内容组件基础
+    /// </summary>
+    public class VContentComponentBase<TContext> : VComponentBase
+    {
+        /// <summary>
+        /// 子内容
+        /// </summary>
+        [Parameter]
+        public RenderFragment<TContext>? ChildContent { get; set; }
+    }
 }

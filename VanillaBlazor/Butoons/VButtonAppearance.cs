@@ -9,7 +9,7 @@ namespace VanillaBlazor
     /// <summary>
     /// 按钮
     /// </summary>
-    public enum ButtonAppearance
+    public enum VButtonAppearance
     {
         /// <summary>
         /// 一个基本按钮可以用来指示一个次要的动作。 它经常与默认按钮一起使用。  

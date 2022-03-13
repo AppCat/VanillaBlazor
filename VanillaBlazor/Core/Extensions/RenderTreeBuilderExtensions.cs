@@ -23,8 +23,8 @@ namespace VanillaBlazor.Extensions
         /// <returns></returns>
         public static RenderTreeBuilder AddComponent(this RenderTreeBuilder builder, ref int sequence, VComponentBase component)
         {
-            builder.AddAttribute(sequence++, "class", component.ClassMapper.Result);
-            builder.AddAttribute(sequence++, "style", component.StyleMapper.Result);
+            builder.IfAddAttribute(ref sequence, "class", component.ClassMapper.Result, () => !string.IsNullOrWhiteSpace(component.ClassMapper.Result));
+            builder.IfAddAttribute(ref sequence, "style", component.StyleMapper.Result, () => !string.IsNullOrWhiteSpace(component.StyleMapper.Result));
             builder.AddAttribute(sequence++, "id", component.Id);
             builder.AddAttribute(sequence++, "tabindex", component.Tabindex);
             builder.IfAddAttribute(ref sequence, "attributes", component.Attributes, () => component.Attributes != null && component.Attributes.Any());
@@ -151,6 +151,25 @@ namespace VanillaBlazor.Extensions
             if (func?.Invoke() ?? false)
             {
                 builder.AddContent(sequence++, fragment);
+            }
+
+            return builder;
+        }
+
+        /// <summary>
+        /// 判断是否添加
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="sequence"></param>
+        /// <param name="fragment"></param>
+        /// <param name="value"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static RenderTreeBuilder IfAddContent<TValue>(this RenderTreeBuilder builder, ref int sequence, RenderFragment<TValue>? fragment, TValue value, Func<bool> func)
+        {
+            if (func?.Invoke() ?? false)
+            {
+                builder.AddContent<TValue>(sequence++, fragment, value);
             }
 
             return builder;

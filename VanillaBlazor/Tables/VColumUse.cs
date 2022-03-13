@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 namespace VanillaBlazor
 {
     /// <summary>
-    /// 可选元素
+    /// 列使用
     /// </summary>
-    public enum OptionalElement
+    public enum VColumUse
     {
-        A
+        /// <summary>
+        /// 身
+        /// </summary>
+        Body,
+        /// <summary>
+        /// 头
+        /// </summary>
+        Header
     }
 }

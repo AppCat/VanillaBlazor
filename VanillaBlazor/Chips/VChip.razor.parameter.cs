@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace VanillaBlazor
 {
+    /// <summary>
+    /// 炸薯条的参数部分
+    /// Chip parameter partial
+    /// </summary>
     public partial class VChip
     {
         /// <summary>
@@ -15,7 +19,7 @@ namespace VanillaBlazor
         /// The appearance of the chip.
         /// </summary>
         [Parameter]
-        public EnumMix<ChipAppearance>? Appearance { get; set; }
+        public EnumMix<VChipAppearance>? Appearance { get; set; }
 
         /// <summary>
         /// 炸薯条的前缀。
