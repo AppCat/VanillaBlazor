@@ -26,7 +26,7 @@ namespace VanillaBlazor
         /// </summary>
         [Parameter]
         public string Format { get; set; }
-
+        
         /// <summary>
         /// 字段表达式
         /// </summary>

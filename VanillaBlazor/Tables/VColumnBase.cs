@@ -37,10 +37,22 @@ namespace VanillaBlazor
         [Parameter]
         public int ColumnIndex { get; set; }
 
-        /// <summary>
+        /// <summary>+
         /// 标题
         /// </summary>
         [Parameter]
         public string Title { get; set; }
+
+        /// <summary>
+        /// 标题模板
+        /// </summary>
+        [Parameter]
+        public RenderFragment TitleTemplate { get; set; }
+
+        /// <summary>
+        /// 标题配置
+        /// </summary>
+        [Parameter]
+        public VSonComponentConfig TitleConfig { get; set; }
     }
 }

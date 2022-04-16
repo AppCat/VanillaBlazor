@@ -6,13 +6,4 @@
     @Content()
 </CascadingValue>
 
-@code {
-    private RenderFragment Content() => __builder =>
-    {
-        var sequence = 0;
-        __builder.OpenElement(sequence++, "table");
-        __builder.AddComponent(ref sequence, this);
-        __builder.AddContent(sequence++, ChildContent);
-        __builder.CloseComponent();
-    };
-}
+

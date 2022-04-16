@@ -1,0 +1,56 @@
+﻿@page "/modal"
+@using VanillaBlazor.Services
+
+<VButton OnClick=HandleShowModal>Show modal…</VButton>
+
+@{
+
+}
+<VModal @ref=modal1 Title="测试" Content="是否删除" Style="min-width: 600px;" Actions=actions TitleConfig=config Model=config />
+<VModal @ref=modal2 Title="测试" Content="是否删除" Style="min-width: 500px;" Actions=actions TitleConfig=config Model=config />
+<VModal @ref=modal3 Title="测试" Content="是否删除" Style="min-width: 400px;" Actions=actions TitleConfig=config Model=config />
+<VModal @ref=modal4 Title="测试" Content="是否删除" Style="min-width: 300px;" Actions=actions TitleConfig=config Model=config />
+<VModal @ref=modal5 Title="测试" Content="是否删除" Style="min-width: 200px;" Actions=actions TitleConfig=config Model=config />
+<VModal @ref=modal6 Title="测试" Content="是否删除" Style="min-width: 100px;" Actions=actions TitleConfig=config Model=config />
+
+@code {
+    /// <summary>
+    /// 模态服务
+    /// </summary>
+    [Inject]
+    protected VModalService ModalService { get; set; }
+
+    VModal modal1;
+    VModal modal2;
+    VModal modal3;
+    VModal modal4;
+    VModal modal5;
+    VModal modal6;
+
+    bool visibility = false;
+    VSonComponentConfig config = new VSonComponentConfig { Class = "xxx" };
+    VModalActionModalConfig[] actions = new VModalActionModalConfig[]
+    {
+        new VModalActionModalConfig
+        {
+            Text = "Cancel",
+            OnClick = (model => { Console.WriteLine(((VSonComponentConfig)model).Class);  return Task.FromResult(true); })
+        },
+        new VModalActionModalConfig
+        {
+            Text = "Delete",
+            Appearance = VButtonAppearance.Negative,
+            OnClick = (async model => { await Task.Delay(5000); return true; })
+        },
+    };
+
+    private async Task HandleShowModal()
+    {
+        await ModalService.ShowModalAsync(modal1);
+        await ModalService.ShowModalAsync(modal2);
+        await ModalService.ShowModalAsync(modal3);
+        await ModalService.ShowModalAsync(modal4);
+        await ModalService.ShowModalAsync(modal5);
+        await ModalService.ShowModalAsync(modal6);
+    }
+}

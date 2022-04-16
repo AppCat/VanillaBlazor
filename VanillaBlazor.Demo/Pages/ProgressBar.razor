@@ -1,0 +1,32 @@
+﻿@page "/progressBar"
+
+
+<VProgressBar MaxValue="100" Appearance="VProgressBarAppearance.Information" @bind-Value="_value"/>
+<hr/>         
+<VProgressBar MaxValue="100" Appearance="VProgressBarAppearance.Caution" @bind-Value="_value"/>
+<hr/>         
+<VProgressBar MaxValue="100" Appearance="VProgressBarAppearance.Positive" @bind-Value="_value"/>
+<hr/>         
+<VProgressBar MaxValue="100" Appearance="VProgressBarAppearance.Negative" @bind-Value="_value"/>
+<hr/>         
+<VProgressBar MaxValue="100" @bind-Value="_value"/>
+<hr/>
+
+<VButton OnClick="HandleClick" Content="加进度"/>
+
+@code{
+    private uint? _value = 10;
+
+    void HandleClick()
+    {
+        var value = (uint)(_value ?? 0);
+        value += 10;
+
+        if(value > 100)
+        {
+            value = 0;
+        }
+
+        _value = value;
+    }
+}

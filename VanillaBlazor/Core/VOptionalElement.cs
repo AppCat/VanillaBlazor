@@ -11,6 +11,7 @@ namespace VanillaBlazor
     /// </summary>
     public enum VOptionalElement
     {
-        A
+        A,
+        Input
     }
 }

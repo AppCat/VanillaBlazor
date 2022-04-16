@@ -1,0 +1,8 @@
+﻿@namespace VanillaBlazor
+@inherits VDropdownComponentBase<string>
+
+<CascadingValue Value="this" IsFixed="true">
+    <CascadingValue Value="this" IsFixed="true" Name="ParentSelect">
+        @ContentFragment()
+    </CascadingValue>
+</CascadingValue>

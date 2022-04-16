@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VanillaBlazor.Extensions;
 
 namespace VanillaBlazor
 {
@@ -14,6 +16,16 @@ namespace VanillaBlazor
     /// </summary>
     public partial class VButton : VContentComponentBase
     {
+        /// <summary>
+        /// 宽度
+        /// </summary>
+        protected decimal? Width { get; set; }
+
+        /// <summary>
+        /// 高度
+        /// </summary>
+        protected decimal? Height { get; set; }
+
         /// <summary>
         /// 设置
         /// </summary>
@@ -46,9 +58,9 @@ namespace VanillaBlazor
         /// 点击
         /// </summary>
         /// <returns></returns>
-        protected async Task Click(MouseEventArgs args)
+        protected virtual async Task Click(MouseEventArgs args)
         {
-            if (Processing)
+            if (Processing || Disabled)
                 return;
             Processing = true;
             await ProcessingChanged.InvokeAsync(Processing);
@@ -56,5 +68,110 @@ namespace VanillaBlazor
             Processing = false;
             await ProcessingChanged.InvokeAsync(Processing);
         }
+
+        /// <summary>
+        /// 内容渲染
+        /// </summary>
+        /// <returns></returns>
+        protected virtual RenderFragment ContentFragment() => __builder =>
+        {
+            var sequence = 0;
+
+            if (Element != null)
+            {
+                __builder.OpenElement(sequence++, Element.ToClass());
+            }
+            else
+            {
+                __builder.OpenElement(sequence++, "button");
+            }
+
+            __builder.AddComponent(ref sequence, this); 
+            __builder.IfAddAttribute(ref sequence, "type", InputType, () => !string.IsNullOrWhiteSpace(InputType));
+            __builder.AddEvent(ref sequence, "onclick", HandleOnClickAsync, OnClickStopPropagation);
+
+            if (Processing)
+            {
+                if (Height != null && Width != null)
+                {
+                    var top = ((Height ?? 0) - (decimal)24.2) / 2;
+                    top = top <= 0 ? 0 : top;
+                    __builder.AddContent(sequence++, new MarkupString($"<div style='width: {Width}px; height: {Height}px;'><i style='top: {top}px;' class='p-icon--spinner u-animation--spin is-light'></i></div>"));
+                }
+                else
+                {
+                    __builder.AddContent(sequence++, new MarkupString("<i class='p-icon--spinner u-animation--spin is-light'></i>"));
+                }
+            }
+            else
+            {
+                __builder.EitherOrAddContent(ref sequence, ChildContent, Content, () => ChildContent != null);
+            }
+
+            __builder.CloseComponent();
+        };
+
+        #region SDLC
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnInitializedAsync()
+        {
+            //await WindowHelp.AddEventListenerAsync(this, "resize");
+            await base.OnInitializedAsync();
+        }
+
+        /// <summary>
+        /// 释放
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            //WindowHelp.RemoveEventListenerAsync(this, "resize");
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// 渲染后
+        /// </summary>
+        /// <param name="firstRender"></param>
+        /// <returns></returns>
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!Processing)
+            {
+                var clientWidth = await ElementHelp.GetElementPropertyByIdAsync<decimal>(Id, "clientWidth");
+                var clientHeight = await ElementHelp.GetElementPropertyByIdAsync<decimal>(Id, "clientHeight");
+
+                var padding = await ElementHelp.GetComputedStylesByIdAsync(Id, "paddingTop", "paddingBottom", "paddingLeft", "paddingRight");
+
+                if (padding == null)
+                {
+                    Height = clientHeight;
+                    Width = clientWidth;
+                }
+                else
+                {
+                    var pt = ConvertPx(padding?[0]);
+                    var pb = ConvertPx(padding?[1]);
+                    var pl = ConvertPx(padding?[2]);
+                    var pr = ConvertPx(padding?[3]);
+                    if (pt != null && pb != null)
+                    {
+                        Height = clientHeight - pt - pb - 0.190m;
+                    }
+
+                    if (pl != null && pr != null)
+                    {
+                        Width = clientWidth - pl - pr - 0.190m;
+                    }
+                }
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        #endregion
     }
 }

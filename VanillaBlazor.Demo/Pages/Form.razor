@@ -1,0 +1,11 @@
+﻿@page "/form"
+
+<VForm TModel="Person" Model="person" Auto OnFinish="(context => Console.WriteLine(JsonConvert.SerializeObject(context.Model)))">
+    <VButton Content="提交" InputType="submit"/>
+    <VButton Content="清空" InputType="reset"/>
+</VForm>
+
+
+@code{
+    Person person = new Person();
+}

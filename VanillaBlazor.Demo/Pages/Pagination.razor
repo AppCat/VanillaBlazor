@@ -1,0 +1,12 @@
+﻿@page "/pagination"
+
+@{
+    var linkConfig = new VSonComponentConfig();
+    linkConfig.AddClass("is-small");
+}
+
+<VPagination @bind-PageIndex=pageIndex PageTotal="30" LinkConfig=linkConfig PreviousConfig=linkConfig NextConfig=linkConfig/>
+
+@code{
+    int pageIndex = 1;
+}

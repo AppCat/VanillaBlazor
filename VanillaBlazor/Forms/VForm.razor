@@ -1,0 +1,7 @@
+﻿@namespace VanillaBlazor
+@inherits VContentComponentBase<TModel>
+@typeparam TModel
+
+<CascadingValue Value="this" IsFixed="true">
+    @ContentFragment()
+</CascadingValue>

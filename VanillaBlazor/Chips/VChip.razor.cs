@@ -28,11 +28,18 @@ namespace VanillaBlazor
             .If("is-small", () => Small)
             .If("is-dark", () => Dark)
             ;
+        }
 
-            LeadConfig ??= VSonComponentConfig.Empty;
+        /// <summary>
+        /// 设置参数
+        /// </summary>
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            LeadConfig = new VSonComponentConfig(LeadConfig);
             LeadConfig.AddClass("p-chip__lead");
 
-            ValueConfig ??= VSonComponentConfig.Empty;
+            ValueConfig = new VSonComponentConfig(ValueConfig);
             ValueConfig.AddClass("p-chip__value");
         }
     }

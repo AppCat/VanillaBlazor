@@ -1,0 +1,15 @@
+﻿@page "/select"
+
+<VSelect OnClickOption='(option => Console.WriteLine($"选中了: {option.Value}"))'>
+    <VSelectOption Key="1" Value="清空" />
+    <VSelectOption Key="2" Value="重置" />
+</VSelect>
+
+<VSelect Placeholder="选择操作" OnClickOption='(option => Console.WriteLine($"选中了: {option.Value}"))'>
+    <VSelectOption Key="1" Value="清空" />
+    <VSelectOption Key="2" Value="重置" />
+</VSelect>
+
+@code {
+
+}

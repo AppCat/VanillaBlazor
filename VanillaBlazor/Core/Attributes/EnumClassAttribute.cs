@@ -41,7 +41,6 @@ namespace VanillaBlazor
         /// <summary>
         /// 转类
         /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
         /// <param name="enum"></param>
         /// <returns></returns>
         public static string ToClass(this Enum @enum)

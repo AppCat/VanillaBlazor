@@ -1,0 +1,18 @@
+﻿@page "/tables"
+
+<VTable TModel=Person DataSource=Persons>
+    <VColumn @bind-Field="context.Id"/>
+    <VColumn @bind-Field="context.Name"/>
+    <VColumn @bind-Field="context.Age"/>
+    <VColumn @bind-Field="context.Sex"/>
+</VTable>
+
+@code{
+    IEnumerable<Person> Persons { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Persons = Enumerable.Range(0, 20).Select(_ => Person.RandomCreate());
+    }
+}

@@ -15,6 +15,12 @@ namespace VanillaBlazor
     public partial class VButton
     {
         /// <summary>
+        /// 内容
+        /// </summary>
+        [Parameter]
+        public string? Content { get; set; }
+
+        /// <summary>
         /// 按钮的外观。
         /// The appearance of the button.
         /// </summary>
@@ -80,7 +86,7 @@ namespace VanillaBlazor
         /// 点击停止传播
         /// </summary>
         [Parameter]
-        public bool? OnClickStopPropagation { get; set; }
+        public bool? OnClickStopPropagation { get; set; } = true;
 
         /// <summary>
         /// 处理事件用于 Bind。
@@ -88,5 +94,12 @@ namespace VanillaBlazor
         /// </summary>
         [Parameter]
         public EventCallback<bool> ProcessingChanged { get; set; }
+
+        /// <summary>
+        /// 输入类型
+        /// </summary>
+        [Parameter]
+        public string InputType { get; set; } = "button";
+
     }
 }

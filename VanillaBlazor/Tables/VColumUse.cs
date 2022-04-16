@@ -12,12 +12,12 @@ namespace VanillaBlazor
     public enum VColumUse
     {
         /// <summary>
-        /// 身
-        /// </summary>
-        Body,
-        /// <summary>
         /// 头
         /// </summary>
-        Header
+        Header,
+        /// <summary>
+        /// 身
+        /// </summary>
+        Body
     }
 }

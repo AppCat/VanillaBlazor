@@ -1,0 +1,112 @@
+﻿@page "/button"
+
+<h1>Button</h1>
+<hr />
+<p>Buttons are clickable elements used to perform an action, you can apply <code>button</code> classes on buttons and link elements.</p>
+<div class="p-notification--information">
+    <p class="p-notification__content">
+        <span class="p-notification__title">Note:</span>
+        <span class="p-notification__message">Do not use multiple button classes on one HTML element.</span>
+    </p>
+</div>
+
+<VButton Content="Default button" />
+<VButton Content="Default button disabled" Disabled />
+
+<hr />
+
+<VButton Content="Base" Appearance="VButtonAppearance.Base" />
+<VButton Content="Base disabled" Disabled Appearance="VButtonAppearance.Base" />
+
+<hr />
+
+<VButton Content="Positive button" Appearance="VButtonAppearance.Positive" />
+<VButton Content="Positive button disabled" Disabled Appearance="VButtonAppearance.Positive" />
+
+<hr />
+
+<VButton Content="Negative button" Appearance="VButtonAppearance.Negative" />
+<VButton Content="Negative button disabled" Disabled Appearance="VButtonAppearance.Negative" />
+
+<hr />
+
+<VButton Content="Brand button" Appearance="VButtonAppearance.Brand" />
+<VButton Content="Brand button disabled" Disabled Appearance="VButtonAppearance.Brand" />
+
+<hr />
+
+<VButton Content="Button as link" Appearance="VButtonAppearance.Link" />
+
+<hr />
+
+<span>Everything you need to get started with Vanilla.</span>
+<VButton Content="Inline button" Inline />
+
+<hr />
+
+<span>Everything you need to get started with Vanilla.</span>
+<VButton Content="Dense button" Dense />
+
+<hr />
+
+<p><small>This is small text <VButton Content="This is a small button" Small Inline /><VButton Content="This is a small, dense button" Small Dense /></small></p>
+
+<hr />
+
+<VButton Appearance="VButtonAppearance.Positive" HasIcon>
+    <i class="p-icon--success"></i>
+</VButton>
+<VButton HasIcon>
+    <i class="p-icon--plus"></i>
+    <span>Icon before text</span>
+</VButton>
+<VButton HasIcon>
+    <span>Icon after text</span>
+    <i class="p-icon--chevron-down"></i>
+</VButton>
+
+<hr />
+
+<VButton Appearance="VButtonAppearance.Positive" Processing />
+<VButton Appearance="VButtonAppearance.Positive" OnClick=HandlerOnClick>
+    CCm
+    <hr />
+    <span id="button-label">Click me!</span>
+    <span>Icon after text</span>
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+</VButton>
+
+<VButton Appearance="VButtonAppearance.Positive" OnClick=HandlerOnClick>
+    <span id="button-label">Click me!</span>
+    <span>Icon after text</span>
+</VButton>
+
+<VButton Appearance="VButtonAppearance.Positive" OnClick=HandlerOnClick>
+    <span id="button-label">Click me!</span>
+</VButton>
+
+<hr />
+
+<VLongPressButton OnClick=HandlerOnClick Content="LongPressButton"/>
+
+<hr />
+
+<VLongPressButton OnClick=HandlerOnClick Content="LongPressButton" Delay="5000"/>
+
+@code {
+    private bool _processing;
+
+    /// <summary>
+    /// 处理点击
+    /// </summary>
+    /// <returns></returns>
+    public async Task HandlerOnClick()
+    {
+        await Task.Delay(10000);
+    }
+}

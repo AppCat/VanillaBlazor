@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VanillaBlazor.Services;
 
 namespace VanillaBlazor.Extensions
 {
@@ -18,6 +19,12 @@ namespace VanillaBlazor.Extensions
         /// <returns></returns>
         public static IServiceCollection AddVanillaBlazor(this IServiceCollection services)
         {
+            // Service
+            services.AddSingleton<VModalService>();
+
+            // JS
+            services.AddSingleton<ElementHelpJS>();
+            services.AddSingleton<WindowHelpJS>();
 
             return services;
         }

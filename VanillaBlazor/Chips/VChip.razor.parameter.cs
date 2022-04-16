@@ -57,7 +57,7 @@ namespace VanillaBlazor
         public RenderFragment? ValueTemplate { get; set; }
 
         /// <summary>
-        /// 炸薯条的内容
+        /// 炸薯条的内容的配置
         /// The value is config for the chip.
         /// </summary>
         [Parameter]

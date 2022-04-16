@@ -9,7 +9,7 @@ namespace VanillaBlazor
     /// <summary>
     /// 映射
     /// </summary>
-    public class Mapper
+    public class ClassMapper
     {
         /// <summary>
         /// 映射表
@@ -29,9 +29,11 @@ namespace VanillaBlazor
         /// <summary>
         /// 映射
         /// </summary>
-        public Mapper()
+        /// <param name="map"></param>
+        public ClassMapper(Dictionary<Func<string>, Func<bool>>? map = null)
         {
             Clear();
+            _map = map ?? new();
         }
 
         /// <summary>
@@ -40,7 +42,8 @@ namespace VanillaBlazor
         /// <returns></returns>
         public string AsString()
         {
-            return string.Join(" ", _map.Where(i => i.Value()).Select(i => i.Key()));
+            var classs = _map.Where(i => i.Value()).Select(i => i.Key()).Distinct();
+            return $"{string.Join(" ", classs)}{(!string.IsNullOrEmpty(Original) ? $" {Original}" : "")}";
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace VanillaBlazor
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Mapper Add(string name)
+        public ClassMapper Add(string name)
         {
             _map.Add(() => name, () => true);
             return this;
@@ -68,7 +71,7 @@ namespace VanillaBlazor
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        public Mapper Get(Func<string> funcName)
+        public ClassMapper Get(Func<string> funcName)
         {
             _map.Add(funcName, () => true);
             return this;
@@ -79,7 +82,7 @@ namespace VanillaBlazor
         /// </summary>
         /// <param name="funcName"></param>
         /// <returns></returns>
-        public Mapper Get<TEnum>(EnumMix<TEnum>? funcName = null)
+        public ClassMapper Get<TEnum>(EnumMix<TEnum>? funcName = null)
             where TEnum : Enum
         {
             _map.Add(() => funcName.ToClass(), () => funcName != null);
@@ -92,7 +95,7 @@ namespace VanillaBlazor
         /// <param name="funcName"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public Mapper GetIf(Func<string> funcName, Func<bool> func)
+        public ClassMapper GetIf(Func<string> funcName, Func<bool> func)
         {
             _map.Add(funcName, func);
             return this;
@@ -104,7 +107,7 @@ namespace VanillaBlazor
         /// <param name="name"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public Mapper If(string name, Func<bool> func)
+        public ClassMapper If(string name, Func<bool> func)
         {
             _map.Add(() => name, func);
             return this;
@@ -114,13 +117,25 @@ namespace VanillaBlazor
         /// 清空
         /// </summary>
         /// <returns></returns>
-        public Mapper Clear()
+        public ClassMapper Clear()
         {
             _map.Clear();
 
-            _map.Add(() => Original, () => !string.IsNullOrEmpty(Original));
+            //_map.Add(() => Original, () => !string.IsNullOrEmpty(Original));
 
             return this;
+        }
+
+        /// <summary>
+        /// 复制
+        /// </summary>
+        /// <returns></returns>
+        public ClassMapper Copy()
+        {
+            return new ClassMapper(new Dictionary<Func<string>, Func<bool>>(_map))
+            {
+                Original = this.Original
+            };
         }
     }
 }

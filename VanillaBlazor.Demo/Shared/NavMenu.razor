@@ -1,33 +1,64 @@
-﻿
-<nav class="p-side-navigation">
-    <div class="p-side-navigation__drawer">
-        <ul class="p-side-navigation__list">
-            <li class="p-side-navigation__item">
-                <NavLink class="p-side-navigation__link" href="">
-                    Home
-                </NavLink>
-            </li>
-            <li class="p-side-navigation__item">
-                <NavLink class="p-side-navigation__link" href="counter">
-                    Counter
-                </NavLink>
-            </li>
-            <li class="p-side-navigation__item">
-                <NavLink class="p-side-navigation__link" href="fetchdata">
-                    Fetch data
-                </NavLink>
-            </li>
-        </ul>
+﻿<div class="p-panel is-dark is-jaas-background">
+    <div class="p-panel__header">
+        <a class="p-panel__logo" href="#">
+            <img class="p-panel__logo-icon" src="https://assets.ubuntu.com/v1/7144ec6d-logo-jaas-icon.svg" alt="" width="24" height="24">
+            <img class="p-panel__logo-name is-fading-when-collapsed" src="https://assets.ubuntu.com/v1/2e04d794-logo-jaas.svg" alt="JAAS" height="16">
+        </a>
+        <div class="p-panel__controls u-hide--large">
+            <button class="p-button--base has-icon u-no-margin u-hide--medium js-menu-close"><i class="p-icon--close"></i></button>
+            <button class="p-button--base has-icon u-no-margin u-hide--small js-menu-pin"><i class="p-icon--close p-icon--pin"></i></button>
+        </div>
     </div>
-</nav>
+    <div class="p-panel__content">
+        <nav class="p-side-navigation--icons is-dark" aria-label="Main navigation">
+            <ul class="p-side-navigation__list is-fading-when-collapsed">
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="index" ActiveClass="is-active">
+                        Home
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="tables" ActiveClass="is-active">
+                        Tables
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="pagination" ActiveClass="is-active">
+                        Pagination
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="modal" ActiveClass="is-active">
+                        Modal
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="button" ActiveClass="is-active">
+                        Button
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="progressBar" ActiveClass="is-active">
+                        ProgressBar
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="input" ActiveClass="is-active">
+                        Input
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="form" ActiveClass="is-active">
+                        Form
+                    </NavLink>
+                </li>
+                <li class="p-side-navigation__item">
+                    <NavLink class="p-side-navigation__link" href="select" ActiveClass="is-active">
+                        Select
+                    </NavLink>
+                </li>
+            </ul>
+        </nav>
 
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+    </div>
+</div>

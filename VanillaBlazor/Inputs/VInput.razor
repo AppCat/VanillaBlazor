@@ -1,0 +1,7 @@
+﻿@namespace VanillaBlazor
+@inherits VInputBase<TValue>
+@typeparam TValue
+
+<CascadingValue Value="this" IsFixed="true">
+    @ContentFragment()
+</CascadingValue>

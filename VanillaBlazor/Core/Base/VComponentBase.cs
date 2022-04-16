@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace VanillaBlazor
@@ -76,17 +77,33 @@ namespace VanillaBlazor
         /// Js运行时
         /// </summary>
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime? JSRuntime { get; set; }
+
+        #region JS
+
+        /// <summary>
+        /// 元素帮助
+        /// </summary>
+        [Inject]
+        protected ElementHelpJS? ElementHelp { get; set; }
+
+        /// <summary>
+        /// 窗口帮助
+        /// </summary>
+        [Inject]
+        protected WindowHelpJS? WindowHelp { get; set; }
+
+        #endregion
 
         /// <summary>
         /// 类映射
         /// </summary>
-        internal Mapper ClassMapper { get; set; } = new Mapper();
+        internal ClassMapper ClassMapper { get; set; } = new ClassMapper();
 
         /// <summary>
         /// 样式映射
         /// </summary>
-        internal Mapper StyleMapper { get; set; } = new Mapper();
+        internal StyleMapper StyleMapper { get; set; } = new StyleMapper();
 
         /// <summary>
         /// 是否释放
@@ -159,6 +176,28 @@ namespace VanillaBlazor
         {
             return JSRuntime.InvokeVoidAsync(code, args);
         }
+
+        /// <summary>
+        /// 转换像素
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected decimal? ConvertPx(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            value = Regex.Replace(value, @"[^\d.\d]", "");
+            if (Regex.IsMatch(value, @"^[+-]?\d*[.]?\d*$"))
+            {
+                return decimal.Parse(value);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 释放
         /// </summary>

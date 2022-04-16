@@ -1,0 +1,18 @@
+﻿@page "/input"
+
+<h1>Input</h1>
+<hr />
+
+<VInput TValue="string" @bind-Value="@Value"/>
+
+<VInput TValue="string" @bind-Value="@Value" QuickResponse/>
+
+<VInput TValue="string" @bind-Value="@Value" QuickResponse InputType="VInputType.Datetime"/>
+
+<VInput TValue="string" @bind-Value="@Value" QuickResponse InputType="VInputType.Password"/>
+
+<VInput TValue="string" @bind-Value="@Value" QuickResponse InputType="VInputType.Number"/>
+
+@code{
+    string Value;
+}

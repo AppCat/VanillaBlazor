@@ -1,19 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="p-strip">
-    <div class="row">
-        <aside class="col-3">
+
+<div class="l-application">
+    <header class="l-navigation is-collapsed">
+        <div class="l-navigation__drawer">
             <NavMenu />
-        </aside>
-
-        <main class="col-9">
-            <div class="top-row px-4">
-                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+    </header>
+    <main class="l-main">
+        <div class="p-panel">
+            <div class="p-panel__header">
+                <h4 class="p-panel__title">Admin</h4>
             </div>
-
-            <article class="content px-4">
-                @Body
-            </article>
-        </main>
-    </div>
+            <div class="p-panel__content">
+                <div class="u-fixed-width">
+                    @Body
+                </div>
+            </div>
+        </div>
+    </main>
 </div>

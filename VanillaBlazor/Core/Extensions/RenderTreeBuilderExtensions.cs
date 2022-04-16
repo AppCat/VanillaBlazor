@@ -23,11 +23,30 @@ namespace VanillaBlazor.Extensions
         /// <returns></returns>
         public static RenderTreeBuilder AddComponent(this RenderTreeBuilder builder, ref int sequence, VComponentBase component)
         {
-            builder.IfAddAttribute(ref sequence, "class", component.ClassMapper.Result, () => !string.IsNullOrWhiteSpace(component.ClassMapper.Result));
-            builder.IfAddAttribute(ref sequence, "style", component.StyleMapper.Result, () => !string.IsNullOrWhiteSpace(component.StyleMapper.Result));
-            builder.AddAttribute(sequence++, "id", component.Id);
-            builder.AddAttribute(sequence++, "tabindex", component.Tabindex);
-            builder.IfAddAttribute(ref sequence, "attributes", component.Attributes, () => component.Attributes != null && component.Attributes.Any());
+            if(component != null)
+            {
+                builder.IfAddAttribute(ref sequence, "class", component.ClassMapper.Result, () => !string.IsNullOrWhiteSpace(component.ClassMapper.Result));
+                builder.IfAddAttribute(ref sequence, "style", component.StyleMapper.Result, () => !string.IsNullOrWhiteSpace(component.StyleMapper.Result));
+                builder.AddAttribute(sequence++, "id", component.Id);
+                builder.AddAttribute(sequence++, "tabindex", component.Tabindex);
+                builder.IfAddAttribute(ref sequence, "disabled", String.Empty, () => component.Disabled);
+
+                if(component.Attributes != null && component.Attributes.Any())
+                {
+                    foreach (var attribute in component.Attributes)
+                    {
+                        if(attribute.Value == null)
+                        {
+                            builder.AddAttribute(sequence++, attribute.Key);
+                        }
+                        else
+                        {
+                            builder.AddAttribute(sequence++, attribute.Key, attribute.Value);
+                        }
+                    }
+                }
+            }
+
             return builder;
         }
 
@@ -40,9 +59,12 @@ namespace VanillaBlazor.Extensions
         /// <returns></returns>
         public static RenderTreeBuilder AddConfig(this RenderTreeBuilder builder, ref int sequence, VSonComponentConfig config)
         {
-            builder.IfAddAttribute(ref sequence, "class", config.AsClass, () => !string.IsNullOrWhiteSpace(config.AsClass));
-            builder.IfAddAttribute(ref sequence, "style", config.AsStyle, () => !string.IsNullOrWhiteSpace(config.AsStyle));
-            builder.IfAddAttribute(ref sequence, "attributes", config.Attributes, () => config.Attributes != null && config.Attributes.Any());
+            if (config != null)
+            {
+                builder.IfAddAttribute(ref sequence, "class", config.AsClass, () => !string.IsNullOrWhiteSpace(config.AsClass));
+                builder.IfAddAttribute(ref sequence, "style", config.AsStyle, () => !string.IsNullOrWhiteSpace(config.AsStyle));
+                builder.IfAddAttribute(ref sequence, "attributes", config.Attributes, () => config.Attributes != null && config.Attributes.Any());
+            }
             return builder;
         }
 
@@ -67,7 +89,7 @@ namespace VanillaBlazor.Extensions
 
             if (preventDefault != null)
             {
-                builder.AddEventStopPropagationAttribute(sequence++, eventName, (bool)preventDefault);
+                builder.AddEventPreventDefaultAttribute(sequence++, eventName, (bool)preventDefault);
             }
 
             return builder;
@@ -98,6 +120,40 @@ namespace VanillaBlazor.Extensions
             }
 
             return builder;
+        }
+
+        /// <summary>
+        /// 添加事件
+        /// </summary>
+        /// <typeparam name="TArgument"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="sequence"></param>
+        /// <param name="eventName"></param>
+        /// <param name="receiver"></param>
+        /// <param name="callback"></param>
+        /// <param name="stopPropagation"></param>
+        /// <param name="preventDefault"></param>
+        /// <returns></returns>
+        public static RenderTreeBuilder AddEvent<TArgument>(this RenderTreeBuilder builder, ref int sequence, string eventName, object receiver, Func<TArgument, Task> callback, bool? stopPropagation = null, bool? preventDefault = null)
+        {
+            return AddEvent(builder, ref sequence, eventName, EventCallback.Factory.Create(receiver, callback), stopPropagation, preventDefault);
+        }
+
+        /// <summary>
+        /// 添加事件
+        /// </summary>
+        /// <typeparam name="TArgument"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="sequence"></param>
+        /// <param name="eventName"></param>
+        /// <param name="receiver"></param>
+        /// <param name="callback"></param>
+        /// <param name="stopPropagation"></param>
+        /// <param name="preventDefault"></param>
+        /// <returns></returns>
+        public static RenderTreeBuilder AddEvent<TArgument>(this RenderTreeBuilder builder, ref int sequence, string eventName, object receiver, Action<TArgument> callback, bool? stopPropagation = null, bool? preventDefault = null)
+        {
+            return AddEvent(builder, ref sequence, eventName, EventCallback.Factory.Create(receiver, callback), stopPropagation, preventDefault);
         }
 
         /// <summary>
@@ -284,5 +340,47 @@ namespace VanillaBlazor.Extensions
 
             return builder;
         }
+
+        /// <summary>
+        /// 打开级联
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="sequence"></param>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <param name="isFixed"></param>
+        /// <returns></returns>
+        public static RenderTreeBuilder OpenCascadingValue<TValue>(this RenderTreeBuilder builder, ref int sequence, TValue value, string? name = null, bool isFixed = false)
+        {
+            builder.OpenComponent<CascadingValue<TValue>>(sequence++);
+
+            builder.AddAttribute(sequence++, nameof(CascadingValue<TValue>.IsFixed), isFixed);
+            builder.IfAddAttribute(ref sequence, nameof(CascadingValue<TValue>.Name), name, () => !string.IsNullOrWhiteSpace(name));
+            builder.AddAttribute(sequence++, nameof(CascadingValue<TValue>.Value), value);
+
+            //builder.CloseComponent();
+
+            return builder;
+        }
+
+        ///// <summary>
+        ///// 添加子内容
+        ///// </summary>
+        ///// <param name="builder"></param>
+        ///// <param name="sequence"></param>
+        ///// <param name="renderFragment"></param>
+        ///// <returns></returns>
+        //public static RenderTreeBuilder AddChildContent(this RenderTreeBuilder builder, ref int sequence, RenderFragment? renderFragment)
+        //{
+        //    builder.AddAttribute(sequence++, ChildContent, isFixed);
+
+        //    return builder;
+        //}
+
+        /// <summary>
+        /// The reserved parameter name used for supplying child content.
+        /// </summary>
+        private const string ChildContent = nameof(ChildContent);
     }
 }

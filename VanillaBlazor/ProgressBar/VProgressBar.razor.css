@@ -1,0 +1,52 @@
+﻿
+.vb-progress {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 100%;
+    border: none;
+    margin: 1em 0 2.5em;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: rgba(0,0,0,.1);
+    padding: 0;
+    border-radius: .28571429rem;
+}
+
+    .vb-progress .vb-bar {
+        display: block;
+        line-height: 1;
+        position: relative;
+        width: 0;
+        min-width: .0em;
+        background: #666;
+        color: #fff;
+        border-radius: .28571429rem;
+        -webkit-transition: width .1s ease,background-color .1s ease;
+        transition: width .1s ease,background-color .1s ease;
+        overflow: hidden;
+        height: .75em;
+    }
+
+        .vb-progress .vb-bar.information {
+            background: #24598f;
+            color: #fff;
+        }
+
+        .vb-progress .vb-bar.caution {
+            background: #f99b11;
+            color: #111;
+        }
+
+        .vb-progress .vb-bar.positive {
+            background: #0e8420;
+            color: #fff;
+        }
+
+        .vb-progress .vb-bar.negative {
+            background: #c7162b;
+            color: #111;
+        }
+
+

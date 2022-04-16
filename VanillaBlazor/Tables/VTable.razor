@@ -10,77 +10,25 @@
                 @ChildContent(Model)
             }
         </CascadingValue>
-        @Content()
+        <table>
+            <CascadingValue Value="VColumUse.Header" IsFixed>
+                @THeaderFragment()
+            </CascadingValue>
+            <CascadingValue Value="VColumUse.Body" IsFixed>
+                <tbody>
+                    @if (DataSource != null && ChildContent != null)
+                    {
+                        foreach (var data in DataSource)
+                        {
+                            <tr>
+                                @ChildContent(data)
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </CascadingValue>
+        </table>
+
+        @*@Content()*@
     </CascadingValue>
 </CascadingValue>
-
-@code {
-    private RenderFragment Content() => __builder =>
-    {
-        var sequence = 0;
-        __builder.OpenElement(sequence++, "table");
-        __builder.AddComponent(ref sequence, this);
-
-        __builder.IfAddContent(ref sequence, THeaderFragment(), () => ChildContent != null && !HideHeader);
-        __builder.AddContent(sequence++, TBodyFragment());
-        __builder.AddContent(sequence++, TFootFragment());
-
-        __builder.CloseComponent();
-    };
-
-    private RenderFragment THeaderFragment() => __builder =>
-    {
-        var sequence = 0;
-        __builder.OpenElement(sequence++, "thead");
-
-        if (ChildContent != null)
-        {
-            RenderFragment tr = __builder =>
-            {
-                var sequence = 0;
-                __builder.OpenComponent(sequence++, typeof(CascadingValue<VColumUse>));
-                __builder.AddAttribute(sequence++, "value", VColumUse.Header);
-                __builder.AddAttribute(sequence++, "IsFixed", true);
-                __builder.IfAddContent<TModel>(ref sequence, ChildContent, Model, () => ChildContent != null);
-                __builder.CloseComponent();
-            };
-            __builder.AddContent(sequence++, tr);
-        }
-
-        __builder.CloseComponent();
-    };
-
-    private RenderFragment TBodyFragment() => __builder =>
-    {
-        var sequence = 0;
-        __builder.OpenElement(sequence++, "tbody");
-
-        if (ChildContent != null && DataSource != null && DataSource.Any())
-        {
-            RenderFragment tr = __builder =>
-            {
-                var sequence = 0;
-                __builder.OpenComponent(sequence++, typeof(CascadingValue<VColumUse>));
-                __builder.AddAttribute(sequence++, "value", VColumUse.Body);
-                __builder.AddAttribute(sequence++, "IsFixed", true);
-                foreach (var data in DataSource)
-                {
-                    if (RowFilter == null || (RowFilter?.Invoke(data) ?? false))
-                    {
-                        __builder.IfAddContent<TModel>(ref sequence, ChildContent, data, () => ChildContent != null);
-                    }
-                }
-                __builder.CloseComponent();
-            };
-            __builder.AddContent(sequence++, tr);
-        }
-
-        __builder.CloseComponent();
-    };
-
-    private RenderFragment TFootFragment() => __builder =>
-    {
-        var sequence = 0;
-
-    };
-}

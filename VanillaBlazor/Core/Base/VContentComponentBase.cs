@@ -10,7 +10,7 @@ namespace VanillaBlazor
     /// <summary>
     /// 内容组件基础
     /// </summary>
-    public class VContentComponentBase : VComponentBase
+    public abstract class VContentComponentBase : VComponentBase
     {
         /// <summary>
         /// 子内容
@@ -22,7 +22,7 @@ namespace VanillaBlazor
     /// <summary>
     /// 内容组件基础
     /// </summary>
-    public class VContentComponentBase<TContext> : VComponentBase
+    public abstract class VContentComponentBase<TContext> : VComponentBase
     {
         /// <summary>
         /// 子内容
