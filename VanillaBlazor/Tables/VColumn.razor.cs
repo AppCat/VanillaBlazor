@@ -27,7 +27,7 @@ namespace VanillaBlazor
         /// <summary>
         /// 属性名称
         /// </summary>
-        public string FieldName => _propertyReflector?.PropertyName; 
+        public string FieldName => _propertyReflector?.PropertyName;
 
         #region SDLC
 
@@ -52,15 +52,19 @@ namespace VanillaBlazor
 
         #region RenderFragment
 
-        private RenderFragment Content() => __builder =>
+        /// <summary>
+        /// 内容渲染
+        /// </summary>
+        /// <returns></returns>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
+            var sequence = 0;
+
             if (IsInitialize)
             {
                 return;
             }
-            var sequence = 0;
-
-            if (Use == VColumUse.Header)
+            else if(Use == VColumUse.Header)
             {
                 __builder.OpenElement(sequence++, "th");
                 __builder.AddConfig(ref sequence, TitleConfig);

@@ -3,5 +3,7 @@
 @typeparam TModel
 
 <CascadingValue Value="this" IsFixed="true">
-    @ContentFragment()
+    <CascadingValue Value="Stacked" Name="Stacked">
+        @ContentFragment()
+    </CascadingValue>
 </CascadingValue>

@@ -18,18 +18,30 @@ namespace VanillaBlazor
         /// 单元格过滤器
         /// </summary>
         [Parameter]
-        public Func<TModel, bool> RowFilter { get; set; }
+        public Func<TModel, bool>? RowFilter { get; set; }
 
         /// <summary>
         /// 数据源
         /// </summary>
         [Parameter]
-        public IEnumerable<TModel> DataSource { get; set; }
+        public IEnumerable<TModel>? DataSource { get; set; }
 
         /// <summary>
         /// 隐藏表头
         /// </summary>
         [Parameter]
         public bool HideHeader { get; set; }
+
+        /// <summary>
+        /// 单行
+        /// </summary>
+        [Parameter]
+        public bool SingleLine { get; set; }
+
+        /// <summary>
+        /// 说明模板
+        /// </summary>
+        [Parameter]
+        public RenderFragment? CaptionTemplate { get; set; }
     }
 }

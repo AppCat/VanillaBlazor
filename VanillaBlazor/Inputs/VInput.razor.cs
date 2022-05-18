@@ -25,7 +25,7 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
             var sequence = 0;
 
@@ -36,7 +36,7 @@ namespace VanillaBlazor
             __builder.IfAddAttribute(ref sequence, "value", _inputValue, () => !string.IsNullOrWhiteSpace(_inputValue));
             __builder.IfAddAttribute(ref sequence, "placeholder", Placeholder, () => !string.IsNullOrWhiteSpace(Placeholder));
 
-            __builder.AddAttribute(sequence++, "type", InputType.ToClass());    
+            __builder.AddAttribute(sequence++, "type", InputType.ToClass());
 
             __builder.AddEvent(ref sequence, "onchange", HandleOnChangeAsync);
             __builder.AddEvent(ref sequence, "onkeyup", HandleOnKeyupAsync);

@@ -1,13 +1,38 @@
 ﻿@page "/tables"
 
 <VTable TModel=Person DataSource=Persons>
-    <VColumn @bind-Field="context.Id"/>
-    <VColumn @bind-Field="context.Name"/>
-    <VColumn @bind-Field="context.Age"/>
-    <VColumn @bind-Field="context.Sex"/>
+    <VColumn @bind-Field="context.Id" />
+    <VColumn @bind-Field="context.Name" />
+    <VColumn @bind-Field="context.Age" />
+    <VColumn @bind-Field="context.Sex" />
 </VTable>
 
-@code{
+<VTable TModel=Person>
+    <CaptionTemplate>
+        <caption>
+            <div class="p-strip">
+                <div class="row">
+                    <div class="u-align--right col-4 col-medium-2 col-small-1">
+                        <img src="https://assets.ubuntu.com/v1/263e7c5d-iot_orange.svg" alt="empty state">
+                    </div>
+                    <div class="u-align--left col-8 col-medium-4 col-small-3">
+                        <p class="p-heading--4 u-no-margin--bottom">PCI information not available</p>
+                        <p>Commission this machine to load PCI and USB device information</p>
+                        <button class="p-button--positive">Commission</button>
+                    </div>
+                </div>
+            </div>
+        </caption>
+    </CaptionTemplate>
+    <ChildContent>
+        <VColumn @bind-Field="context.Id" />
+        <VColumn @bind-Field="context.Name" />
+        <VColumn @bind-Field="context.Age" />
+        <VColumn @bind-Field="context.Sex" />
+    </ChildContent>
+</VTable>
+
+@code {
     IEnumerable<Person> Persons { get; set; }
 
     protected override void OnInitialized()

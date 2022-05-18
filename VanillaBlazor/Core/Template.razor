@@ -1,4 +1,12 @@
 ﻿@namespace VanillaBlazor
-@inherits VContentComponentBase
+@inherits ComponentBase
 
 @ChildContent
+
+@code {
+    /// <summary>
+    /// 子内容
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

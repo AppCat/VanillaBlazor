@@ -20,16 +20,15 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        private RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
+
+            var sequence = 0;
             if (IsInitialize)
             {
                 return;
             }
-
-            var sequence = 0;
-
-            if (Use == VColumUse.Header)
+            else if (Use == VColumUse.Header)
             {
                 __builder.OpenElement(sequence++, "th");
                 __builder.AddConfig(ref sequence, TitleConfig);

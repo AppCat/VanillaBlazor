@@ -29,12 +29,18 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder => 
+        protected override RenderFragment ContentFragment() => __builder => 
         {
             var sequence = 0;
 
             __builder.OpenElement(sequence++, "div");
             __builder.AddComponent(ref sequence, this);
+
+            if (Stacked)
+            {
+                __builder.OpenElement(sequence++, "div");
+                __builder.AddAttribute(sequence++, "class", "col-4");
+            }
 
             __builder.OpenElement(sequence++, "label");
             __builder.AddConfig(ref sequence, LabelConfig);
@@ -43,12 +49,28 @@ namespace VanillaBlazor
 
             __builder.CloseElement();
 
+            if (Stacked)
+            {
+                __builder.CloseElement();
+            }
+
+            if (Stacked)
+            {
+                __builder.OpenElement(sequence++, "div");
+                __builder.AddAttribute(sequence++, "class", "col-8");
+            }
+
             __builder.OpenElement(sequence++, "div");
             __builder.AddConfig(ref sequence, ControlConfig);
 
             __builder.IfAddContent(ref sequence, ChildContent, () => ChildContent != null);
 
             __builder.CloseElement();
+
+            if (Stacked)
+            {
+                __builder.CloseElement();
+            }
 
             __builder.CloseComponent();
         };

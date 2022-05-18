@@ -20,12 +20,148 @@ namespace VanillaBlazor
         /// <summary>
         /// 列上下文
         /// </summary>
-        protected VColumnContext<IVColumn> ColumnContext { get; set; }
+        protected VColumnContext<IVColumn> ColumnContext { get; set; } = new VColumnContext<IVColumn>();
 
         /// <summary>
         /// 模型
         /// </summary>
         protected static readonly TModel Model = (TModel)RuntimeHelpers.GetUninitializedObject(typeof(TModel));
+
+        /// <summary>
+        /// 内容渲染
+        /// </summary>
+        /// <returns></returns>
+        protected override RenderFragment ContentFragment() => __builder =>
+        {
+            var sequence = 0;
+
+            __builder.OpenComponent<CascadingValue<VColumnContext<IVColumn>>>(sequence++);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumnContext<IVColumn>>.IsFixed), true);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumnContext<IVColumn>>.Value), ColumnContext);
+
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumnContext<IVColumn>>.ChildContent), (RenderFragment)(__builder =>
+            {
+                __builder.AddContent(sequence++, InitializeFragment());
+
+                __builder.OpenElement(sequence++, "table");
+
+                __builder.AddContent(sequence++, THeaderFragment());
+
+                __builder.AddContent(sequence++, TBodyFragment());
+
+                __builder.CloseElement();
+            }));
+
+            __builder.CloseComponent();
+        };
+
+        /// <summary>
+        /// 初始化渲染
+        /// </summary>
+        /// <returns></returns>
+        private RenderFragment InitializeFragment() => __builder =>
+        {
+            var sequence = 0;
+
+            if (ChildContent == null)
+            {
+                return;
+            }
+
+            __builder.OpenComponent<CascadingValue<bool>>(sequence++);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<bool>.IsFixed), true);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<bool>.Value), true);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<bool>.Name), "TableInitialize");
+
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<bool>.ChildContent), (RenderFragment)(__builder =>
+            {
+                var sequence = 0;
+                __builder.AddContent(sequence++, ChildContent, Model);
+            }));
+
+            __builder.CloseComponent();
+        };
+
+        /// <summary>
+        /// 头渲染
+        /// </summary>
+        /// <returns></returns>
+        private RenderFragment THeaderFragment() => __builder =>
+        {
+            var sequence = 0;
+
+            if (ChildContent == null || HideHeader)
+            {
+                return;
+            }
+
+            __builder.OpenComponent<CascadingValue<VColumUse>>(sequence++);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.IsFixed), true);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.Value), VColumUse.Header);
+            __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.ChildContent), (RenderFragment)(__builder =>
+            {
+                var sequence = 0;
+
+                __builder.OpenElement(sequence++, "thead");
+
+                __builder.OpenElement(sequence++, "tr");
+                __builder.AddContent(sequence++, ChildContent, Model);
+                __builder.CloseElement();
+
+                __builder.CloseComponent();
+            }));
+
+            __builder.CloseComponent();
+        };
+
+        /// <summary>
+        /// 身体渲染
+        /// </summary>
+        /// <returns></returns>
+        private RenderFragment TBodyFragment() => __builder =>
+        {
+            var sequence = 0;
+
+            if ((DataSource == null || !(DataSource?.Any() ?? false)) && CaptionTemplate != null)
+            {
+                __builder.AddContent(sequence++, CaptionTemplate);
+            }
+            else
+            {
+                __builder.OpenComponent<CascadingValue<VColumUse>>(sequence++);
+                __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.IsFixed), true);
+                __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.Value), VColumUse.Body);
+                __builder.AddAttribute(sequence++, nameof(CascadingValue<VColumUse>.ChildContent), (RenderFragment)(__builder =>
+                {
+                    var sequence = 0;
+                    __builder.OpenElement(sequence++, "tbody");
+
+                    if (ChildContent != null && DataSource != null && DataSource.Any())
+                    {
+                        foreach (var data in DataSource)
+                        {
+                            __builder.OpenElement(sequence++, "tr");
+                            __builder.AddContent(sequence++, ChildContent, data);
+                            __builder.CloseElement();
+                        }
+                    }
+
+                    __builder.CloseComponent();
+                }));
+
+                __builder.CloseComponent();
+            }
+        };
+
+        /// <summary>
+        /// 脚渲染
+        /// </summary>
+        /// <returns></returns>
+        private RenderFragment TFootFragment() => __builder =>
+        {
+            var sequence = 0;
+
+        };
 
         #region SDLC
 
@@ -35,60 +171,8 @@ namespace VanillaBlazor
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            ColumnContext = new VColumnContext<IVColumn>();
+
         }
-
-        //private RenderFragment Content() => __builder =>
-        //{
-        //    var sequence = 0;
-        //    __builder.OpenElement(sequence++, "table");
-        //    __builder.AddComponent(ref sequence, this);
-
-        //    __builder.IfAddContent(ref sequence, THeaderFragment(), () => ChildContent != null && !HideHeader);
-        //    __builder.AddContent(sequence++, TBodyFragment());
-        //    __builder.AddContent(sequence++, TFootFragment());
-
-        //    __builder.CloseComponent();
-        //};
-
-        private RenderFragment THeaderFragment() => __builder =>
-        {
-            var sequence = 0;
-            __builder.OpenElement(sequence++, "thead");
-
-            if (ChildContent != null)
-            {
-                __builder.OpenElement(sequence++, "tr");
-                __builder.IfAddContent<TModel>(ref sequence, ChildContent, Model, () => ChildContent != null);
-                __builder.CloseElement();
-            }
-
-            __builder.CloseComponent();
-        };
-
-        private RenderFragment TBodyFragment() => __builder =>
-        {
-            var sequence = 0;
-            __builder.OpenElement(sequence++, "tbody");
-
-            if (ChildContent != null && DataSource != null && DataSource.Any())
-            {
-                foreach (var data in DataSource)
-                {
-                    __builder.OpenElement(sequence++, "tr");
-                    __builder.IfAddContent<TModel>(ref sequence, ChildContent, data, () => ChildContent != null);
-                    __builder.CloseElement();
-                }
-            }
-
-            __builder.CloseComponent();
-        };
-
-        private RenderFragment TFootFragment() => __builder =>
-        {
-            var sequence = 0;
-
-        };
 
         #endregion
     }

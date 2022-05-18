@@ -3,7 +3,7 @@
 @typeparam TModel
 
 <CascadingValue Value="this" IsFixed="true">
-    <CascadingValue Value="@ColumnContext" IsFixed>
+    @*<CascadingValue Value="@ColumnContext" IsFixed>
         <CascadingValue Name="IsInitialize" Value="true" IsFixed>
             @if (ChildContent != null)
             {
@@ -15,20 +15,10 @@
                 @THeaderFragment()
             </CascadingValue>
             <CascadingValue Value="VColumUse.Body" IsFixed>
-                <tbody>
-                    @if (DataSource != null && ChildContent != null)
-                    {
-                        foreach (var data in DataSource)
-                        {
-                            <tr>
-                                @ChildContent(data)
-                            </tr>
-                        }
-                    }
-                </tbody>
+                @TBodyFragment()
             </CascadingValue>
         </table>
+    </CascadingValue>*@
 
-        @*@Content()*@
-    </CascadingValue>
+    @ContentFragment()
 </CascadingValue>

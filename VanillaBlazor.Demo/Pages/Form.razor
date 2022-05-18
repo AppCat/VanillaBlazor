@@ -1,11 +1,72 @@
 ﻿@page "/form"
+@using VanillaBlazor.Services
 
-<VForm TModel="Person" Model="person" Auto OnFinish="(context => Console.WriteLine(JsonConvert.SerializeObject(context.Model)))">
-    <VButton Content="提交" InputType="submit"/>
-    <VButton Content="清空" InputType="reset"/>
+<VForm @ref="form" TModel="Person" Model="person" Auto OnFinish="(context => Console.WriteLine(JsonConvert.SerializeObject(context.Model)))">
+    <VButton Content="提交" InputType="submit" />
+    <VButton Content="清空" InputType="reset" />
 </VForm>
 
+<hr/>
 
-@code{
+<VForm @ref="form" TModel="Person" Model="person" Auto OnFinish="(context => Console.WriteLine(JsonConvert.SerializeObject(context.Model)))" Stacked>
+    <VButton Content="提交" InputType="submit" />
+    <VButton Content="清空" InputType="reset" />
+</VForm>
+
+<VModal @ref=modal Title="测试" Style="min-width: 500px;" Actions=actions TitleConfig=config Model="form">
+    <ContentTemplate>
+    </ContentTemplate>
+</VModal>
+
+<VButton OnClick=HandleShowModal>Form</VButton>
+
+@code {
+    /// <summary>
+    /// 模态服务
+    /// </summary>
+    [Inject]
+    protected VModalService ModalService { get; set; }
+
+    VModal modal;
+    VForm<Person> form;
+
+    bool visibility = false;
+    VSonComponentConfig config = new VSonComponentConfig { Class = "xxx" };
+    VModalActionModalConfig[] actions = new VModalActionModalConfig[]
+        {
+        new VModalActionModalConfig
+        {
+            Text = "重置",
+            OnClick = (async model =>
+            {
+                if(model is  VForm<Person> form)
+                {
+                    form?.Reset();
+                }
+                return await Task.FromResult(false);
+            })
+        },
+        new VModalActionModalConfig
+        {
+            Text = "提交",
+            Appearance = VButtonAppearance.Positive,
+            OnClick = (async model =>
+            {
+                if(model is  VForm<Person> form)
+                {
+                    form?.Submit();
+                    return form?.Validate() ?? false;
+                }
+                return await Task.FromResult(false);
+            })
+        },
+        };
+
     Person person = new Person();
+
+    private async Task HandleShowModal()
+    {
+        //modal.Model = form;
+        await ModalService.ShowModalAsync(modal);
+    }
 }

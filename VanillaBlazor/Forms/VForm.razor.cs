@@ -32,7 +32,7 @@ namespace VanillaBlazor
         /// 编辑上下文
         /// </summary>
         public EditContext EditContext => _editContext;
-        private EditContext _editContext;   
+        private EditContext _editContext; 
 
         /// <summary>
         /// 模型
@@ -56,7 +56,7 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
             var sequence = 0;
 
@@ -92,6 +92,7 @@ namespace VanillaBlazor
                     {
                         __builder.AddContent(sequence++, ChildContent, Model);
                     }
+
                 }));
 
                 __builder.CloseComponent();

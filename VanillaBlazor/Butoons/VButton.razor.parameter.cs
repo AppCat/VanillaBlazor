@@ -77,6 +77,13 @@ namespace VanillaBlazor
         public bool Theming { get; set; }
 
         /// <summary>
+        /// 按钮是否应为流体状态。
+        /// Whether the button should be fluid.
+        /// </summary>
+        [Parameter]
+        public bool Fluid { get; set; }
+
+        /// <summary>
         /// 点击事件
         /// </summary>
         [Parameter]

@@ -348,18 +348,23 @@ namespace VanillaBlazor.Extensions
         /// <param name="builder"></param>
         /// <param name="sequence"></param>
         /// <param name="value"></param>
+        /// <param name="renderFragment"></param>
         /// <param name="name"></param>
         /// <param name="isFixed"></param>
         /// <returns></returns>
-        public static RenderTreeBuilder OpenCascadingValue<TValue>(this RenderTreeBuilder builder, ref int sequence, TValue value, string? name = null, bool isFixed = false)
+        public static RenderTreeBuilder AddCascadingValue<TValue>(this RenderTreeBuilder builder, 
+            ref int sequence,
+            TValue value,
+            RenderFragment renderFragment,
+            string? name = null, 
+            bool? isFixed = null)
         {
             builder.OpenComponent<CascadingValue<TValue>>(sequence++);
-
-            builder.AddAttribute(sequence++, nameof(CascadingValue<TValue>.IsFixed), isFixed);
-            builder.IfAddAttribute(ref sequence, nameof(CascadingValue<TValue>.Name), name, () => !string.IsNullOrWhiteSpace(name));
             builder.AddAttribute(sequence++, nameof(CascadingValue<TValue>.Value), value);
-
-            //builder.CloseComponent();
+            builder.IfAddAttribute(ref sequence, nameof(CascadingValue<TValue>.IsFixed), true, () => isFixed != null && isFixed == true);
+            builder.IfAddAttribute(ref sequence, nameof(CascadingValue<TValue>.Name), name, () => !string.IsNullOrWhiteSpace(name));
+            builder.AddAttribute(sequence++, nameof(CascadingValue<IVForm>.ChildContent), renderFragment);
+            builder.CloseComponent();
 
             return builder;
         }

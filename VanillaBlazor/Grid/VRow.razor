@@ -2,11 +2,11 @@
 @inherits VContentComponentBase
 
 <CascadingValue Value="this" IsFixed="true">
-    @Content()
+    @ContentFragment()
 </CascadingValue>
 
 @code {
-    private RenderFragment Content() => __builder =>
+    protected override RenderFragment ContentFragment() => __builder =>
     {
         var sequence = 0;
         __builder.OpenElement(sequence++, "div");

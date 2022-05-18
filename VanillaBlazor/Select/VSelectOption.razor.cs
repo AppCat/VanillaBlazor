@@ -17,7 +17,7 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
             var sequence = 0;
 

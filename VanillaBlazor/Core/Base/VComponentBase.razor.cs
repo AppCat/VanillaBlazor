@@ -12,8 +12,14 @@ namespace VanillaBlazor
     /// <summary>
     /// 组件基础
     /// </summary>
-    public abstract class VComponentBase : ComponentBase, IAsyncDisposable
+    public abstract partial class VComponentBase : ComponentBase, IAsyncDisposable
     {
+        /// <summary>
+        /// 内容渲染
+        /// </summary>
+        /// <returns></returns>
+        protected abstract RenderFragment ContentFragment();
+
         #region Parameter
 
         /// <summary>

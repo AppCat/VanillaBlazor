@@ -39,7 +39,7 @@ namespace VanillaBlazor
         /// 内容片段
         /// </summary>
         /// <returns></returns>
-        private RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
             var sequence = 0;
             __builder.OpenElement(sequence++, "div");

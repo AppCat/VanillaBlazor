@@ -24,7 +24,14 @@ namespace VanillaBlazor
             ClassMapper.Clear()
             .Add(fixedClass)
             ;
+        }
 
+        /// <summary>
+        /// 参数设置
+        /// </summary>
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
             LabelConfig = LabelConfig.Copy();
             LabelConfig.AddClass("p-checkbox__label");
         }
@@ -33,7 +40,7 @@ namespace VanillaBlazor
         /// 内容渲染
         /// </summary>
         /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder =>
+        protected override RenderFragment ContentFragment() => __builder =>
         {
             var sequence = 0;
             __builder.OpenElement(sequence++, "label");
@@ -55,6 +62,7 @@ namespace VanillaBlazor
             //__builder.AddElementReferenceCapture(sequence++, element => InputElement = element);
 
             __builder.CloseElement();
+
             __builder.OpenElement(sequence++, "span");
             __builder.AddConfig(ref sequence, LabelConfig);
             __builder.AddContent(sequence++, Label);

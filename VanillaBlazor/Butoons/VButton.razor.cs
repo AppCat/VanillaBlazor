@@ -41,8 +41,53 @@ namespace VanillaBlazor
             .If("is-small", () => Small)
             .If("is-processing", () => Processing)
             .If("is-dark", () => Theming)
+            .If("is-fluid", () => Fluid)
             ;
         }
+
+        /// <summary>
+        /// 内容渲染
+        /// </summary>
+        /// <returns></returns>
+        protected override RenderFragment ContentFragment() => __builder =>
+        {
+            var sequence = 0;
+            var cssScope = "vb-button";
+
+            if (Element != null)
+            {
+                __builder.OpenElement(sequence++, Element.ToClass());
+            }
+            else
+            {
+                __builder.OpenElement(sequence++, "button");
+            }
+
+            __builder.AddAttribute(sequence++, cssScope);
+            __builder.AddComponent(ref sequence, this); 
+            __builder.IfAddAttribute(ref sequence, "type", InputType, () => !string.IsNullOrWhiteSpace(InputType));
+            __builder.AddEvent(ref sequence, "onclick", HandleOnClickAsync, OnClickStopPropagation);
+
+            if (Processing)
+            {
+                if (Height != null && Width != null)
+                {
+                    var top = ((Height ?? 0) - (decimal)24.2) / 2;
+                    top = top <= 0 ? 0 : top;
+                    __builder.AddContent(sequence++, new MarkupString($"<div style='width: {Width}px; height: {Height}px;'><i style='top: {top}px;' class='p-icon--spinner u-animation--spin'></i></div>"));
+                }
+                else
+                {
+                    __builder.AddContent(sequence++, new MarkupString("<i class='p-icon--spinner u-animation--spin'></i>"));
+                }
+            }
+            else
+            {
+                __builder.EitherOrAddContent(ref sequence, ChildContent, Content, () => ChildContent != null);
+            }
+
+            __builder.CloseComponent();
+        };
 
         /// <summary>
         /// 处理 OnClick
@@ -68,48 +113,6 @@ namespace VanillaBlazor
             Processing = false;
             await ProcessingChanged.InvokeAsync(Processing);
         }
-
-        /// <summary>
-        /// 内容渲染
-        /// </summary>
-        /// <returns></returns>
-        protected virtual RenderFragment ContentFragment() => __builder =>
-        {
-            var sequence = 0;
-
-            if (Element != null)
-            {
-                __builder.OpenElement(sequence++, Element.ToClass());
-            }
-            else
-            {
-                __builder.OpenElement(sequence++, "button");
-            }
-
-            __builder.AddComponent(ref sequence, this); 
-            __builder.IfAddAttribute(ref sequence, "type", InputType, () => !string.IsNullOrWhiteSpace(InputType));
-            __builder.AddEvent(ref sequence, "onclick", HandleOnClickAsync, OnClickStopPropagation);
-
-            if (Processing)
-            {
-                if (Height != null && Width != null)
-                {
-                    var top = ((Height ?? 0) - (decimal)24.2) / 2;
-                    top = top <= 0 ? 0 : top;
-                    __builder.AddContent(sequence++, new MarkupString($"<div style='width: {Width}px; height: {Height}px;'><i style='top: {top}px;' class='p-icon--spinner u-animation--spin is-light'></i></div>"));
-                }
-                else
-                {
-                    __builder.AddContent(sequence++, new MarkupString("<i class='p-icon--spinner u-animation--spin is-light'></i>"));
-                }
-            }
-            else
-            {
-                __builder.EitherOrAddContent(ref sequence, ChildContent, Content, () => ChildContent != null);
-            }
-
-            __builder.CloseComponent();
-        };
 
         #region SDLC
 

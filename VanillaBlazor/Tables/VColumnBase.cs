@@ -22,7 +22,7 @@ namespace VanillaBlazor
         /// <summary>
         /// 是否初始化
         /// </summary>
-        [CascadingParameter(Name = "IsInitialize")]
+        [CascadingParameter(Name = "TableInitialize")]
         protected bool IsInitialize { get; set; }
 
         /// <summary>

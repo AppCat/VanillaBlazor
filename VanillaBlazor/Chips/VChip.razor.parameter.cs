@@ -19,7 +19,7 @@ namespace VanillaBlazor
         /// The appearance of the chip.
         /// </summary>
         [Parameter]
-        public EnumMix<VChipAppearance>? Appearance { get; set; }
+        public EnumMix<VAppearance>? Appearance { get; set; }
 
         /// <summary>
         /// 炸薯条的前缀。

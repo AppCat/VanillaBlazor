@@ -1,7 +1,8 @@
 ﻿@page "/modal"
 @using VanillaBlazor.Services
 
-<VButton OnClick=HandleShowModal>Show modal…</VButton>
+<VButton OnClick=HandleShowModalAsync>Show modal</VButton>
+<VButton OnClick=HandleShowModalByConfigAsync>Show modal By Config</VButton>
 
 @{
 
@@ -30,7 +31,7 @@
     bool visibility = false;
     VSonComponentConfig config = new VSonComponentConfig { Class = "xxx" };
     VModalActionModalConfig[] actions = new VModalActionModalConfig[]
-    {
+        {
         new VModalActionModalConfig
         {
             Text = "Cancel",
@@ -42,9 +43,9 @@
             Appearance = VButtonAppearance.Negative,
             OnClick = (async model => { await Task.Delay(5000); return true; })
         },
-    };
+        };
 
-    private async Task HandleShowModal()
+    private async Task HandleShowModalAsync()
     {
         await ModalService.ShowModalAsync(modal1);
         await ModalService.ShowModalAsync(modal2);
@@ -52,5 +53,15 @@
         await ModalService.ShowModalAsync(modal4);
         await ModalService.ShowModalAsync(modal5);
         await ModalService.ShowModalAsync(modal6);
+    }
+
+    private async Task HandleShowModalByConfigAsync()
+    {
+        await ModalService.ShowModalAsync(new VModalConfig
+        {
+            Title= "测试",
+            Content = "是否删除",
+            Actions = actions
+        });
     }
 }
